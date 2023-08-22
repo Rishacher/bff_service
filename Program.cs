@@ -13,22 +13,26 @@ namespace bff_service
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            RegisterServices(builder.Services);
+
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
+            app.UseSwagger();
+            app.UseSwaggerUI();
+            
             app.MapControllers();
 
+            app.UseCors((options) => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             app.Run();
+        }
+        
+        private static void RegisterServices(IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddScoped<HttpClient>();
+            serviceCollection.AddScoped<VlpService>();
+            serviceCollection.AddScoped<IprService>();
+            serviceCollection.AddScoped<IntersectionService>();
         }
     }
 }
