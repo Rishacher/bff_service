@@ -6,7 +6,7 @@ public class VlpService
     private readonly VlpClient _vlpClient;
     public VlpService(HttpClient client)
     {
-        _vlpClient = new VlpClient("http://localhost:8002", client);
+        _vlpClient = new VlpClient("http://vlp:8002", client);
     }
 
     public async Task<CurvePoint[]> GetCurveAsync(VlpCalcRequest request, CancellationToken ct = default)

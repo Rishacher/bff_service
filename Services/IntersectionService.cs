@@ -9,15 +9,15 @@ public class IntersectionService
 
     public IntersectionService(HttpClient client, IprService iprService, VlpService vlpService)
     {
-        intersectionClient = new IntersectionClient("http://localhost:8004", client);
+        intersectionClient = new IntersectionClient("http://nodal-analysis:8004/", client);
         this.iprService = iprService;
         this.vlpService = vlpService;
     }
 
-    public async Task<CurveResponse> GetIntersectionAsync(CurveRequest req, CancellationToken ct = default)
+    public async Task<CurveResponse> GetIntersectionAsync(CurveRequest req)
     {
-        var ipr = await iprService.GetCurveAsync(req.iprParams);
         var vlp = await vlpService.GetCurveAsync(req.vlpParams);
+        var ipr = await iprService.GetCurveAsync(req.iprParams);
 
         var intersection = await intersectionClient.PostAsync(
             new NodalCalcRequest
